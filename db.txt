@@ -23,18 +23,17 @@ CREATE TABLE IF NOT EXISTS profiles{
 
 };
 
-DROP TRIGGER IF EXISTS new_profile
-CREATE TRIGGER new_profile AFTER INSERT ON users	
-	FOR EACH ROW
-	BEGIN
-	INSERT INTO profiles(user_id) VALUES (new_id);
-END;
+INSERT INTO profiles
+(SELECT name
+from profiles where name = 'Daniiar')
 
-DROP TRIGGER IF EXISTS update_users
-CREATE TRIGGER update_user AFTER UPDATE ON profiles	
-	FOR EACH ROW
-	BEGIN
-	UPDATE users SET updated_at = datetime('now') WHERE id = OLD.user_id;
+select * from profiles;
 
-END;
 
+UPDATE profiles
+SET name = name + last_name
+WHERE last_name = (SELECT last_name FROM profiles WHERE last_name = 'Arkabaev')
+
+
+DELETE FROM profiles
+WHERE last_name = (SELECT last_name FROM profiles WHERE last_name is null);
